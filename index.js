@@ -1,13 +1,29 @@
 const express = require('express');
+const hbs = require('express-hbs');
+const mongoose = require('mongoose');
+
+const config = require('./config');
 
 const app = express();
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, function () {
+app.use(express.static("lib"));
+app.set('view engine', 'hbs');
+//app.set('views', 'views');
+app.engine('hbs', hbs.express4({
+    defaultLayout: __dirname + "/views/index.hbs",
+    layoutDir: __dirname + "/views/pages"
+}));
+
+app.listen(port, () => {
     console.log(`Server running on ${port}`);
 });
 
-app.get('/', function (req, res) {
-    res.send("Hello Node");
-});
+mongoose.connection.openUri(config.conStr);
+
+const defaultRouter = require('./routes/default.router');
+const productRouter = require('./routes/product.router');
+
+app.use('/', defaultRouter);
+app.use('/products', productRouter);

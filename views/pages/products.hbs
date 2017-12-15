@@ -1,0 +1,19 @@
+<h1>Products</h1>
+
+<div class="col-md-5">
+    {{#each products}}
+    <div class="well">
+        <h3>{{brand}} {{model}}</h3>
+        <div class="text-muted">$ {{price}}</div>
+        <div class="text-muted">
+            {{#if inStock}}
+            <b>Yes</b>
+            {{else}}
+            <b>No</b>
+            {{/if}}
+
+        </div>
+        <div class="text-muted">{{lastUpdated}}</div>
+    </div>
+    {{/each}}
+</div>

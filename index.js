@@ -1,12 +1,15 @@
 const express = require('express');
 const hbs = require('express-hbs');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 const config = require('./config');
 
 const app = express();
 
 const port = process.env.PORT || 3000;
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static("lib"));
 app.set('view engine', 'hbs');
@@ -21,6 +24,7 @@ app.listen(port, () => {
 });
 
 mongoose.connection.openUri(config.conStr);
+mongoose.Promise = global.Promise;
 
 const defaultRouter = require('./routes/default.router');
 const productRouter = require('./routes/product.router');

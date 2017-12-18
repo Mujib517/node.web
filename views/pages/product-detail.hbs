@@ -1,0 +1,18 @@
+<div class="col-md-7">
+    <div class="panel">
+        <div class="panel-primary">
+            <div class="panel-heading">{{product.brand}} {{product.model}}</div>
+            <div class="panel-body">
+                <div>price: ${{product.price}} </div>
+                <div>InStock {{#if inStock}}
+                    <input type="checkbox" checked="true" disabled="disabled" /> {{else}}
+                    <input type="checkbox" disabled="disabled"> {{/if}}
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div>{{product.lastUpdated}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+{{!-- Zen coding --}}

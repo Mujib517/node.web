@@ -4,7 +4,7 @@ var productModel = mongoose.model("Product", {
     brand: { type: String, required: true, minlength: 3, maxlength: 10 },
     model: { type: String, required: true },
     price: { type: Number, required: true },
-    inStock: { type: Boolean, default: true },
+    inStock: { type: Boolean, default: false },
     lastUpdated: { type: Date, default: Date.now },
     image: { type: String }
 });

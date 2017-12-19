@@ -1,5 +1,6 @@
 const Product = require('../models/product.model');
 const Review = require('../models/review.model');
+const moment = require('moment');
 
 class ProductCtrl {
     get(req, res) {
@@ -21,6 +22,7 @@ class ProductCtrl {
                 Review.find({ productId: id })
                     .then(function (reviews) {
                         let jsonProduct = product.toJSON();
+                        jsonProduct.lastUpdated = moment(jsonProduct.lastUpdated).fromNow();
                         jsonProduct.reviews = reviews;
                         console.log(jsonProduct);
                         res.render("pages/product-detail", { product: jsonProduct });

@@ -14,5 +14,19 @@
             </div>
         </div>
     </div>
+    <h1>Reviews</h1>
+    {{#if product.reviews}} {{#each product.reviews}}
+    <div>
+        <h3>{{subject}} {{rating}} *</h3>
+        <p>{{message}}</p>
+        <div class="text-muted">{{lastUpdated}}</div>
+        <hr/>
+    </div>
+    {{/each}} {{else}}
+    <h3>Be the first one to review</h3>
+
+    {{/if}}
+
+
 </div>
 {{!-- Zen coding --}}

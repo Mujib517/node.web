@@ -24,7 +24,6 @@ class ProductCtrl {
                         let jsonProduct = product.toJSON();
                         jsonProduct.lastUpdated = moment(jsonProduct.lastUpdated).fromNow();
                         jsonProduct.reviews = reviews;
-                        console.log(jsonProduct);
                         res.render("pages/product-detail", { product: jsonProduct });
                     });
             })

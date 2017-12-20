@@ -7,21 +7,19 @@ class UserCtrl {
         res.render("pages/login");
     }
 
-    validate(req, res) {
-        User.findOne({ username: req.body.username, password: req.body.password })
+    validate(username, password, done) {
+        User.findOne({ username: username, password: password })
             .then(function (user) {
-                if (user) {
-                    res.redirect("/products");
-                }
-                else {
-                    res.locals.failed = true;
-                    res.render("pages/login");
-                }
+                done(null, user);
             })
             .catch(function (err) {
-                console.log(err);
-                res.render("pages/error");
-            })
+                done(err);
+            });
+    }
+
+    logout(req, res) {
+        req.logout();
+        res.redirect("/users/login");
     }
 }
 

@@ -3,8 +3,6 @@ const hbs = require('express-hbs');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-
-
 const config = require('./config');
 
 const app = express();
@@ -29,38 +27,36 @@ app.listen(port, () => {
 mongoose.connection.openUri(config.conStr);
 mongoose.Promise = global.Promise;
 
+const auth = require('./utilities/auth');
 
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const session = require('express-session');
-
-app.use(session({ secret: config.privateKey }));
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.serializeUser(function (user, done) {
-    console.log('serializatioon', user);
-    done(null, user.username);
-});
-
-passport.deserializeUser(function (username, done) {
-    done(null);
-});
-
-passport.use('local-login', new LocalStrategy(function (username, password, done) {
-    if (username == 'admin' && password == 'admin') return done(null, { username: username });
-    else done("Wrong username or password");
-}));
-
-app.post('/users/login', passport.authenticate('local-login', {
-    successRedirect: '/products',
-    failureRedirect: '/users/login'
-}));
+auth(app);
 
 const defaultRouter = require('./routes/default.router');
 const productRouter = require('./routes/product.router');
 const userRouter = require('./routes/user.router');
 
 app.use('/', defaultRouter);
-app.use('/products', productRouter);
 app.use('/users', userRouter);
+
+function isAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) next();
+    else res.redirect("/users/login");
+}
+
+function attachAuthInfo(req, res, next) {
+    res.locals.authenticated = true;
+    next();
+}
+
+
+function noCache(req, res, next) {
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    next();
+}
+
+app.use(isAuthenticated);
+app.use(attachAuthInfo);
+app.use(noCache);
+
+
+app.use('/products', productRouter);

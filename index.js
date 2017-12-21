@@ -12,13 +12,14 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static("lib"));
-app.set('view engine', 'hbs');
-//app.set('views', 'views');
-app.engine('hbs', hbs.express4({
-    defaultLayout: __dirname + "/views/index.hbs",
-    layoutDir: __dirname + "/views/pages",
-    partialsDir: __dirname + "/views/"
-}));
+//app.set('view engine', 'hbs');
+app.set('views', 'public');
+app.set('view engine', 'jade');
+// app.engine('hbs', hbs.express4({
+//     defaultLayout: __dirname + "/views/index.hbs",
+//     layoutDir: __dirname + "/views/pages",
+//     partialsDir: __dirname + "/views/"
+// }));
 
 app.listen(port, () => {
     console.log(`Server running on ${port}`);
@@ -54,9 +55,9 @@ function noCache(req, res, next) {
     next();
 }
 
-app.use(isAuthenticated);
-app.use(attachAuthInfo);
-app.use(noCache);
+// app.use(isAuthenticated);
+// app.use(attachAuthInfo);
+// app.use(noCache);
 
 
 app.use('/products', productRouter);

@@ -1,0 +1,10 @@
+extends master
+block main
+    h1 Products
+    .col-md-7
+        each product in products
+            .well
+                h3= product.brand
+                b= product.model
+                .text-muted $ #{product.price}
+                .text-muted= product.lastUpdated

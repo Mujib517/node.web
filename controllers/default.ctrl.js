@@ -1,7 +1,10 @@
 class DefaultCtrl {
 
     home(req, res) {
-        res.render("pages/home");
+        var obj = {
+            title: "Home View"
+        }
+        res.render("pages/home", { obj: obj, vals: [1, 2, 3] });
     }
 
     about(req, res) {
